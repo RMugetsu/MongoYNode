@@ -15,12 +15,13 @@ app.get('/Recetas',function(req, res){
 	MongoClient.connect(url, function(err, db) {
 	  assert.equal(null,err);
 	  var db = db.db("Cocina");
-		var consulta = req.params.consulta;
+		var consulta = req.query.consulta;
 		if (consulta == undefined || consulta == ""){
 			var consulta_bd;
 		}else{
 			var consulta_bd = {$or:[{nombre: new RegExp('.*'+consulta+'.*')},{duracion: new RegExp('.*'+consulta+'.*')},{tipo: new RegExp('.*'+consulta+'.*')},{descripcion: new RegExp('.*'+consulta+'.*')}]}
 		}
+		console.log(consulta_bd);
 	  db.collection("Recetas").find(consulta_bd).toArray(function(err, result) {
 			if (err) throw err;
 		var lista = "";
